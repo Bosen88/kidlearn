@@ -1,6 +1,5 @@
 'use client'
-import { motion } from 'framer-motion'
-import type { TargetAndTransition } from 'framer-motion'
+import { motion, type TargetAndTransition } from 'framer-motion'
 
 type Character = 'peep' | 'hoppy' | 'luna' | 'sparky'
 type Mood = 'happy' | 'excited' | 'thinking' | 'sad' | 'dancing'
