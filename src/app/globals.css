@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+:root {
+  --color-peep: #a8e6cf;
+  --color-hoppy: #ffd3b6;
+  --color-luna: #d4a5f5;
+  --color-sparky: #ffd93d;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+body {
+  font-family: 'Nunito', 'Noto Sans TC', sans-serif;
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+  user-select: none;
+  color: #333;
+}
+
+.game-card {
+  border-radius: 1.5rem;
+  background: white;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.game-card:active {
+  transform: translateY(4px);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.float { animation: float 3s ease-in-out infinite; }
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+}
+
+.wiggle { animation: wiggle 1s ease-in-out infinite; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d4a5f5; border-radius: 3px; }
