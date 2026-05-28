@@ -1,15 +1,5 @@
 @import "tailwindcss";
 
-:root {
-  --bg-gradient: linear-gradient(160deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
-  --card-bg: #ffffff;
-  --text-primary: #1a1a2e;
-  --text-secondary: #4b5563;
-  --text-muted: #9ca3af;
-  --accent-purple: #7c3aed;
-  --accent-yellow: #f59e0b;
-}
-
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
@@ -22,73 +12,44 @@ html {
 
 body {
   font-family: 'Nunito', 'Noto Sans TC', -apple-system, sans-serif;
-  background: var(--bg-gradient);
+  background: #f0f4ff;
   min-height: 100vh;
   overflow-x: hidden;
-  color: var(--text-primary);
+  color: #1e1b4b;
   -webkit-font-smoothing: antialiased;
 }
 
-/* High contrast game card */
 .game-card {
   border-radius: 1.5rem;
   background: white;
-  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.12), 0 12px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 0 rgba(0,0,0,0.10), 0 12px 24px rgba(0,0,0,0.06);
   transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 .game-card:active {
   transform: translateY(4px);
-  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12);
-}
-
-/* Text on dark background — always white & readable */
-.on-dark {
-  color: #ffffff;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
-}
-
-.on-dark-muted {
-  color: rgba(255,255,255,0.75);
-}
-
-/* Glassmorphism pill */
-.glass-pill {
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.10);
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  50%       { transform: translateY(-10px); }
 }
 .float { animation: float 3s ease-in-out infinite; }
 
 @keyframes wiggle {
   0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(6deg); }
-  75% { transform: rotate(-6deg); }
+  25%      { transform: rotate(6deg); }
+  75%      { transform: rotate(-6deg); }
 }
 .wiggle { animation: wiggle 1.2s ease-in-out infinite; }
 
-@keyframes pop-in {
-  0% { transform: scale(0.7); opacity: 0; }
-  80% { transform: scale(1.06); }
-  100% { transform: scale(1); opacity: 1; }
-}
-.pop-in { animation: pop-in 0.4s cubic-bezier(.34,1.56,.64,1) forwards; }
-
-/* Inputs */
+/* prevent iOS zoom on focus */
 input[type="email"],
 input[type="password"],
 input[type="text"],
-select {
-  font-size: 16px !important; /* prevent iOS zoom */
-}
+select { font-size: 16px !important; }
 
-/* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 2px; }

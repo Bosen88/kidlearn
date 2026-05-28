@@ -6,8 +6,6 @@ import CharacterSprite from '@/components/ui/CharacterSprite'
 import BigButton from '@/components/ui/BigButton'
 import type { GameLevel } from '@/lib/types'
 
-const BG = 'linear-gradient(160deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%)'
-
 interface Props {
   level: GameLevel
   children: ReactNode
@@ -21,20 +19,21 @@ export default function GameShell({ level, children, onComplete, completed, star
   const router = useRouter()
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: BG }}>
+    <div className="min-h-screen flex flex-col"
+      style={{ background: 'linear-gradient(160deg, #eef2ff 0%, #fdf4ff 100%)' }}>
+
       {/* Header */}
-      <div className="sticky top-0 z-20 px-4 pt-5 pb-3"
-        style={{ background: 'rgba(30,27,75,0.85)', backdropFilter: 'blur(16px)' }}>
+      <div className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-gray-100 px-4 pt-4 pb-3 shadow-sm">
         <div className="flex items-center gap-3 max-w-lg mx-auto">
           <button
             onClick={() => router.push('/game')}
-            className="flex-shrink-0 bg-white/15 hover:bg-white/25 text-white font-bold rounded-2xl px-4 py-2.5 text-sm transition-colors"
+            className="flex-shrink-0 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold rounded-2xl px-4 py-2.5 text-sm transition-colors"
           >
             ← 返回
           </button>
           <div className="flex-1 min-w-0">
-            <p className="text-white font-black text-lg leading-tight truncate">{level.title}</p>
-            <p className="text-white/60 text-xs font-semibold">{level.description}</p>
+            <p className="text-gray-800 font-black text-lg leading-tight truncate">{level.title}</p>
+            <p className="text-gray-400 text-xs font-semibold">{level.description}</p>
           </div>
           <div className="flex-shrink-0">
             <CharacterSprite character={level.character} mood="happy" size={44} />
@@ -45,9 +44,9 @@ export default function GameShell({ level, children, onComplete, completed, star
       {/* Hint */}
       {hint && (
         <div className="px-4 pt-3 max-w-lg mx-auto w-full">
-          <div className="bg-white/15 rounded-2xl px-4 py-3 flex items-center gap-2">
-            <span className="text-xl">💡</span>
-            <p className="text-white font-bold text-base">{hint}</p>
+          <div className="bg-indigo-50 border border-indigo-100 rounded-2xl px-4 py-3 flex items-center gap-2">
+            <span className="text-xl flex-shrink-0">💡</span>
+            <p className="text-indigo-700 font-bold text-base">{hint}</p>
           </div>
         </div>
       )}
@@ -60,15 +59,11 @@ export default function GameShell({ level, children, onComplete, completed, star
       {/* Complete button */}
       {completed && (
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
           className="px-4 pb-8 pt-3 max-w-lg mx-auto w-full"
         >
-          <BigButton
-            color="#f59e0b"
-            onClick={() => onComplete(stars)}
-            className="w-full text-gray-900 font-black text-xl py-5"
-          >
+          <BigButton color="#4f46e5" onClick={() => onComplete(stars)}
+            className="w-full font-black text-xl py-5">
             完成！拿走 {stars} ⭐
           </BigButton>
         </motion.div>

@@ -73,7 +73,7 @@ export default function TimeGuard({ children }: { children: React.ReactNode }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center px-5"
-            style={{ background: 'linear-gradient(160deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%)' }}
+            style={{ background: 'linear-gradient(160deg, #eef2ff 0%, #fdf4ff 100%)' }}
           >
             <motion.div
               initial={{ scale: 0.7, y: 40 }}
@@ -109,7 +109,7 @@ export default function TimeGuard({ children }: { children: React.ReactNode }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center px-5"
-            style={{ background: 'linear-gradient(160deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%)' }}
+            style={{ background: 'linear-gradient(160deg, #eef2ff 0%, #fdf4ff 100%)' }}
           >
             <motion.div
               initial={{ scale: 0.7 }}

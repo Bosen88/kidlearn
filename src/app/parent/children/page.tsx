@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { auth } from '@/lib/firebase'
 import { saveChildProfile } from '@/lib/firestoreService'
 import { useAppStore } from '@/lib/store'
-import FloatingElements from '@/components/FloatingElements'
 import BigButton from '@/components/ui/BigButton'
 import type { ChildProfile } from '@/lib/types'
 
@@ -47,8 +46,8 @@ export default function ChildrenPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-5 relative overflow-hidden">
-      <FloatingElements />
+    <div className="min-h-screen flex flex-col items-center justify-center px-5"
+      style={{ background: 'linear-gradient(160deg, #eef2ff 0%, #fdf4ff 100%)' }}>
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
