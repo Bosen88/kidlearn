@@ -72,30 +72,30 @@ export default function TimeGuard({ children }: { children: React.ReactNode }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex flex-col items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center px-5"
+            style={{ background: 'linear-gradient(160deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%)' }}
           >
             <motion.div
-              initial={{ scale: 0, y: 50 }}
+              initial={{ scale: 0.7, y: 40 }}
               animate={{ scale: 1, y: 0 }}
-              transition={{ type: 'spring', stiffness: 200 }}
-              className="bg-white rounded-[2rem] p-10 mx-6 text-center max-w-sm shadow-2xl"
+              transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+              className="bg-white rounded-[2.5rem] p-8 w-full max-w-sm text-center shadow-2xl"
             >
-              <CharacterSprite character="sparky" mood="dancing" size={100} />
-              <h2 className="text-4xl font-black mt-4 text-purple-600">休息時間！</h2>
-              <p className="text-gray-500 mt-2 text-lg">眼睛累了，讓我們休息一下 👀</p>
+              <CharacterSprite character="sparky" mood="dancing" size={90} />
+              <h2 className="text-4xl font-black mt-4 text-gray-800">休息時間！</h2>
+              <p className="text-gray-500 mt-2 text-base font-semibold">眼睛累了，讓我們休息一下 👀</p>
 
-              <div className="mt-6 bg-purple-50 rounded-2xl p-4">
-                <p className="text-gray-400 text-sm mb-1">還剩</p>
-                <div className="text-6xl font-black text-purple-600 tabular-nums">
+              <div className="mt-6 bg-indigo-50 rounded-2xl p-5">
+                <p className="text-gray-400 text-sm font-semibold mb-2">倒數</p>
+                <div className="text-6xl font-black text-indigo-600 tabular-nums tracking-tight">
                   {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
                 </div>
               </div>
 
-              <div className="mt-6 space-y-2 text-left">
-                <p className="text-gray-500 text-sm">✅ 站起來動一動</p>
-                <p className="text-gray-500 text-sm">✅ 看看遠方讓眼睛休息</p>
-                <p className="text-gray-500 text-sm">✅ 喝點水補充能量</p>
+              <div className="mt-5 space-y-2.5 text-left bg-gray-50 rounded-2xl p-4">
+                {['站起來動一動 🏃', '看看遠方讓眼睛休息 👀', '喝點水補充能量 💧'].map((tip) => (
+                  <p key={tip} className="text-gray-600 text-sm font-semibold">✅ {tip}</p>
+                ))}
               </div>
             </motion.div>
           </motion.div>
@@ -108,19 +108,21 @@ export default function TimeGuard({ children }: { children: React.ReactNode }) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="fixed inset-0 z-[100] flex flex-col items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' }}
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center px-5"
+            style={{ background: 'linear-gradient(160deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%)' }}
           >
             <motion.div
-              initial={{ scale: 0 }}
+              initial={{ scale: 0.7 }}
               animate={{ scale: 1 }}
-              transition={{ type: 'spring' }}
-              className="bg-white rounded-[2rem] p-10 mx-6 text-center max-w-sm shadow-2xl"
+              transition={{ type: 'spring', stiffness: 220 }}
+              className="bg-white rounded-[2.5rem] p-8 w-full max-w-sm text-center shadow-2xl"
             >
               <div className="text-8xl">🌙</div>
-              <h2 className="text-4xl font-black mt-4 text-pink-600">今天玩夠了！</h2>
-              <p className="text-gray-500 mt-2 text-lg">你今天學了好多，明天繼續！</p>
-              <p className="text-gray-400 mt-4 text-sm">明天爸爸媽媽可以幫你繼續解鎖喔！</p>
+              <h2 className="text-4xl font-black mt-4 text-gray-800">今天玩夠了！</h2>
+              <p className="text-gray-500 mt-3 text-base font-semibold">你今天學了好多，明天繼續！</p>
+              <div className="mt-5 bg-indigo-50 rounded-2xl p-4">
+                <p className="text-indigo-600 font-bold text-sm">明天爸爸媽媽可以幫你繼續解鎖喔 🔓</p>
+              </div>
             </motion.div>
           </motion.div>
         )}

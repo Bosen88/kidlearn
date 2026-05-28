@@ -1,10 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --color-peep: #a8e6cf;
-  --color-hoppy: #ffd3b6;
-  --color-luna: #d4a5f5;
-  --color-sparky: #ffd93d;
+  --bg-gradient: linear-gradient(160deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+  --card-bg: #ffffff;
+  --text-primary: #1a1a2e;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --accent-purple: #7c3aed;
+  --accent-yellow: #f59e0b;
 }
 
 * {
@@ -13,42 +16,79 @@
   touch-action: manipulation;
 }
 
-body {
-  font-family: 'Nunito', 'Noto Sans TC', sans-serif;
-  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-  min-height: 100vh;
-  overflow-x: hidden;
-  user-select: none;
-  color: #333;
+html {
+  font-size: 16px;
 }
 
+body {
+  font-family: 'Nunito', 'Noto Sans TC', -apple-system, sans-serif;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* High contrast game card */
 .game-card {
   border-radius: 1.5rem;
   background: white;
-  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
-  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.12), 0 12px 24px rgba(0, 0, 0, 0.08);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 .game-card:active {
   transform: translateY(4px);
-  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* Text on dark background — always white & readable */
+.on-dark {
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.on-dark-muted {
+  color: rgba(255,255,255,0.75);
+}
+
+/* Glassmorphism pill */
+.glass-pill {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.25);
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
+  0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
 }
-
 .float { animation: float 3s ease-in-out infinite; }
 
 @keyframes wiggle {
   0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(5deg); }
-  75% { transform: rotate(-5deg); }
+  25% { transform: rotate(6deg); }
+  75% { transform: rotate(-6deg); }
+}
+.wiggle { animation: wiggle 1.2s ease-in-out infinite; }
+
+@keyframes pop-in {
+  0% { transform: scale(0.7); opacity: 0; }
+  80% { transform: scale(1.06); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.pop-in { animation: pop-in 0.4s cubic-bezier(.34,1.56,.64,1) forwards; }
+
+/* Inputs */
+input[type="email"],
+input[type="password"],
+input[type="text"],
+select {
+  font-size: 16px !important; /* prevent iOS zoom */
 }
 
-.wiggle { animation: wiggle 1s ease-in-out infinite; }
-
-::-webkit-scrollbar { width: 6px; }
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #d4a5f5; border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 2px; }

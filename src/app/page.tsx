@@ -6,7 +6,6 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import { getParentSettings, createParentSettings } from '@/lib/firestoreService'
 import { useAppStore } from '@/lib/store'
-import FloatingElements from '@/components/FloatingElements'
 import CharacterSprite from '@/components/ui/CharacterSprite'
 import BigButton from '@/components/ui/BigButton'
 import type { ChildProfile } from '@/lib/types'
@@ -35,91 +34,102 @@ export default function HomePage() {
   if (loading) return <LoadingScreen />
 
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-center overflow-hidden">
-      <FloatingElements />
+    <div className="min-h-screen flex flex-col items-center justify-center overflow-hidden px-5 py-10"
+      style={{ background: 'linear-gradient(160deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%)' }}>
+
+      {/* Decorative blobs */}
+      <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-[-20%] left-[-10%] w-96 h-96 rounded-full opacity-20"
+          style={{ background: 'radial-gradient(circle, #a78bfa, transparent)' }} />
+        <div className="absolute bottom-[-10%] right-[-5%] w-80 h-80 rounded-full opacity-15"
+          style={{ background: 'radial-gradient(circle, #f59e0b, transparent)' }} />
+      </div>
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="relative z-10 text-center px-6 py-8 max-w-lg w-full"
+        transition={{ duration: 0.5 }}
+        className="relative z-10 w-full max-w-sm"
       >
-        <motion.div
-          animate={{ rotate: [0, 5, -5, 0], y: [0, -8, 0] }}
-          transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-          className="text-8xl mb-2"
-        >
-          ⭐
-        </motion.div>
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <motion.div
+            animate={{ y: [0, -10, 0], rotate: [0, 5, -5, 0] }}
+            transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
+            className="text-8xl mb-3"
+          >
+            ⭐
+          </motion.div>
+          <h1 className="text-6xl font-black text-white tracking-tight"
+            style={{ textShadow: '0 4px 12px rgba(0,0,0,0.4)' }}>
+            KidSpark
+          </h1>
+          <p className="text-white/75 text-lg font-bold mt-2">邊玩邊學，每天都進步！</p>
+        </div>
 
-        <motion.h1
-          initial={{ scale: 0.8 }}
-          animate={{ scale: 1 }}
-          transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-          className="text-6xl font-black text-white drop-shadow-lg tracking-tight"
-          style={{ textShadow: '0 4px 0 rgba(0,0,0,0.15)' }}
-        >
-          KidSpark
-        </motion.h1>
-        <p className="text-white/80 text-xl font-bold mt-1">邊玩邊學，每天都進步！</p>
-
+        {/* Characters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="flex justify-center gap-6 my-8"
+          transition={{ delay: 0.3 }}
+          className="flex justify-center gap-8 mb-8"
         >
           {(['peep', 'hoppy', 'luna'] as const).map((char, i) => (
-            <motion.div
-              key={char}
-              animate={{ y: [0, -12, 0] }}
-              transition={{ repeat: Infinity, duration: 2, delay: i * 0.3, ease: 'easeInOut' }}
-            >
-              <CharacterSprite character={char} mood="happy" size={70} />
-            </motion.div>
+            <div key={char} className="flex flex-col items-center gap-2">
+              <motion.div
+                animate={{ y: [0, -12, 0] }}
+                transition={{ repeat: Infinity, duration: 2.2, delay: i * 0.35, ease: 'easeInOut' }}
+              >
+                <CharacterSprite character={char} mood="happy" size={64} />
+              </motion.div>
+              <span className="text-white/60 text-xs font-bold uppercase tracking-wider">
+                {char === 'peep' ? 'Peep' : char === 'hoppy' ? 'Hoppy' : 'Luna'}
+              </span>
+            </div>
           ))}
         </motion.div>
 
+        {/* Feature pills */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.5 }}
           className="flex flex-wrap justify-center gap-2 mb-8"
         >
-          {['🦷 生活習慣', '🔤 英文學習', '🧠 認知訓練', '⭐ 獎勵系統', '👨‍👩‍👧 家長管理'].map((tag) => (
-            <span key={tag} className="bg-white/30 backdrop-blur text-white font-bold px-4 py-1.5 rounded-full text-sm">
+          {['🦷 生活習慣', '🔤 英文學習', '🧠 認知訓練', '⭐ 獎勵'].map((tag) => (
+            <span key={tag}
+              className="glass-pill text-white font-bold px-4 py-2 rounded-full text-sm">
               {tag}
             </span>
           ))}
         </motion.div>
 
+        {/* CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="flex flex-col gap-4 items-center"
+          transition={{ delay: 0.6 }}
+          className="flex flex-col gap-3"
         >
           {parentSettings ? (
             <>
-              <BigButton color="#ffd93d" onClick={() => setShowChildSelect(true)} className="w-full text-gray-800">
+              <BigButton color="#f59e0b" onClick={() => setShowChildSelect(true)}
+                className="w-full text-gray-900 font-black text-xl py-5">
                 🎮 開始遊戲
               </BigButton>
-              <button
-                onClick={() => router.push('/parent')}
-                className="text-white/70 underline text-sm font-medium"
-              >
-                家長後台管理
+              <button onClick={() => router.push('/parent')}
+                className="text-white/60 text-sm font-semibold text-center py-2 hover:text-white/90 transition-colors">
+                ⚙️ 家長後台管理
               </button>
             </>
           ) : (
             <>
-              <BigButton color="#ffd93d" onClick={() => router.push('/auth/register')} className="w-full text-gray-800">
+              <BigButton color="#f59e0b" onClick={() => router.push('/auth/register')}
+                className="w-full text-gray-900 font-black text-xl py-5">
                 🚀 免費開始
               </BigButton>
-              <button
-                onClick={() => router.push('/auth/login')}
-                className="text-white/70 underline text-sm font-medium"
-              >
+              <button onClick={() => router.push('/auth/login')}
+                className="text-white/60 text-sm font-semibold text-center py-2 hover:text-white/90 transition-colors">
                 已有帳號？登入
               </button>
             </>
@@ -145,12 +155,7 @@ export default function HomePage() {
   )
 }
 
-function ChildSelectModal({
-  children,
-  onSelect,
-  onClose,
-  onAddChild,
-}: {
+function ChildSelectModal({ children, onSelect, onClose, onAddChild }: {
   children: ChildProfile[]
   onSelect: (c: ChildProfile) => void
   onClose: () => void
@@ -161,45 +166,46 @@ function ChildSelectModal({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4"
+      className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-4"
       onClick={onClose}
     >
       <motion.div
-        initial={{ y: 100, opacity: 0 }}
+        initial={{ y: 80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 100, opacity: 0 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="bg-white rounded-[2rem] p-8 w-full max-w-sm shadow-2xl"
+        exit={{ y: 80, opacity: 0 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+        className="bg-white rounded-[2rem] p-7 w-full max-w-sm shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-3xl font-black text-center text-purple-600 mb-2">我是誰？</h2>
-        <p className="text-gray-400 text-center text-sm mb-6">選擇你的小夥伴！</p>
+        <h2 className="text-3xl font-black text-center text-gray-800 mb-1">我是誰？</h2>
+        <p className="text-gray-400 text-center text-sm font-semibold mb-6">點選你的小夥伴！</p>
 
         <div className="grid grid-cols-2 gap-3">
           {children.map((child) => (
             <motion.button
               key={child.id}
               onClick={() => onSelect(child)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="game-card p-4 flex flex-col items-center gap-2"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              className="bg-gradient-to-b from-purple-50 to-indigo-50 rounded-2xl p-5 flex flex-col items-center gap-2 border-2 border-purple-100"
+              style={{ boxShadow: '0 4px 0 #c4b5fd' }}
             >
               <div className="text-5xl">{child.avatar || '😊'}</div>
-              <span className="font-black text-gray-700 text-lg">{child.name}</span>
-              <div className="flex items-center gap-1 text-yellow-500 text-sm font-bold">
-                ⭐ {child.stars}
+              <span className="font-black text-gray-800 text-lg">{child.name}</span>
+              <div className="flex items-center gap-1 bg-yellow-100 rounded-full px-3 py-1">
+                <span className="text-yellow-500 font-black text-sm">⭐ {child.stars}</span>
               </div>
             </motion.button>
           ))}
 
           <motion.button
             onClick={onAddChild}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="game-card p-4 flex flex-col items-center gap-2 border-2 border-dashed border-purple-200"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+            className="rounded-2xl p-5 flex flex-col items-center gap-2 border-2 border-dashed border-gray-200 hover:border-purple-300 transition-colors"
           >
             <div className="text-5xl">➕</div>
-            <span className="font-bold text-purple-400 text-sm">新增小朋友</span>
+            <span className="font-bold text-gray-400 text-sm">新增小朋友</span>
           </motion.button>
         </div>
       </motion.div>
@@ -209,15 +215,16 @@ function ChildSelectModal({
 
 function LoadingScreen() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
+    <div className="min-h-screen flex flex-col items-center justify-center"
+      style={{ background: 'linear-gradient(160deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%)' }}>
       <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+        animate={{ rotate: 360, scale: [1, 1.2, 1] }}
+        transition={{ rotate: { repeat: Infinity, duration: 1.5, ease: 'linear' }, scale: { repeat: Infinity, duration: 1.5 } }}
         className="text-7xl"
       >
         ⭐
       </motion.div>
-      <p className="text-white/80 font-bold text-xl mt-4">載入中...</p>
+      <p className="text-white/70 font-bold text-xl mt-5">載入中...</p>
     </div>
   )
 }

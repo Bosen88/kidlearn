@@ -4,12 +4,13 @@ import { useRouter } from 'next/navigation'
 import { useAppStore } from '@/lib/store'
 import { GAME_LEVELS, CATEGORY_INFO } from '@/lib/gameData'
 import TimeGuard from '@/components/TimeGuard'
-import FloatingElements from '@/components/FloatingElements'
 import CharacterSprite from '@/components/ui/CharacterSprite'
+
+const BG = 'linear-gradient(160deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%)'
 
 export default function GamePage() {
   const router = useRouter()
-  const { currentChild, parentSettings, setCurrentChild } = useAppStore()
+  const { currentChild, setCurrentChild } = useAppStore()
 
   if (!currentChild) {
     router.push('/')
@@ -17,86 +18,101 @@ export default function GamePage() {
   }
 
   const categories = ['habits', 'english', 'cognitive'] as const
+  const totalStars = currentChild.stars ?? 0
 
   return (
     <TimeGuard>
-      <div className="min-h-screen relative overflow-hidden pb-10">
-        <FloatingElements />
+      <div className="min-h-screen pb-10" style={{ background: BG }}>
 
         {/* Header */}
-        <div className="relative z-10 flex items-center justify-between px-5 pt-6 pb-4">
-          <button
-            onClick={() => { setCurrentChild(null); router.push('/') }}
-            className="bg-white/30 backdrop-blur text-white font-bold rounded-2xl px-4 py-2 text-sm"
-          >
-            ← 返回
-          </button>
+        <div className="sticky top-0 z-20 px-4 pt-5 pb-3"
+          style={{ background: 'rgba(30,27,75,0.85)', backdropFilter: 'blur(16px)' }}>
+          <div className="flex items-center justify-between max-w-lg mx-auto">
+            <button
+              onClick={() => { setCurrentChild(null); router.push('/') }}
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl px-4 py-2.5 text-sm transition-colors"
+            >
+              ← 返回
+            </button>
 
-          <div className="flex items-center gap-2 bg-white/30 backdrop-blur rounded-2xl px-4 py-2">
-            <span className="text-2xl">{currentChild.avatar || '😊'}</span>
-            <div>
-              <p className="text-white font-black text-sm">{currentChild.name}</p>
-              <p className="text-white/80 text-xs">⭐ {currentChild.stars} 顆星</p>
+            {/* Child info */}
+            <div className="flex items-center gap-3 bg-white/10 rounded-2xl px-4 py-2">
+              <span className="text-2xl">{currentChild.avatar || '😊'}</span>
+              <div>
+                <p className="text-white font-black text-sm leading-tight">{currentChild.name}</p>
+                <p className="text-yellow-300 text-xs font-bold">⭐ {totalStars} 顆星</p>
+              </div>
             </div>
-          </div>
 
-          <button
-            onClick={() => router.push('/parent')}
-            className="bg-white/30 backdrop-blur text-white font-bold rounded-2xl px-4 py-2 text-sm"
-          >
-            👨‍👩‍👧
-          </button>
+            <button onClick={() => router.push('/parent')}
+              className="bg-white/10 hover:bg-white/20 text-white rounded-2xl px-4 py-2.5 text-sm font-bold transition-colors">
+              ⚙️
+            </button>
+          </div>
         </div>
 
-        {/* Main Character */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="relative z-10 flex flex-col items-center mb-6"
-        >
-          <CharacterSprite character="sparky" mood="excited" size={90} />
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-white rounded-2xl px-5 py-2 mt-2 shadow-lg"
-          >
-            <p className="text-gray-700 font-black text-lg">
-              {currentChild.name}，今天要學什麼？ 🎯
-            </p>
-          </motion.div>
-        </motion.div>
+        <div className="max-w-lg mx-auto px-4 pt-5 space-y-4">
 
-        {/* Category Cards */}
-        <div className="relative z-10 px-5 space-y-4">
+          {/* Greeting */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-4 bg-white/10 rounded-3xl p-4"
+          >
+            <CharacterSprite character="sparky" mood="excited" size={60} />
+            <div>
+              <p className="text-white font-black text-xl leading-tight">
+                {currentChild.name}，今天學什麼？
+              </p>
+              <p className="text-white/60 text-sm font-semibold mt-0.5">選一個主題開始！</p>
+            </div>
+          </motion.div>
+
+          {/* Category Cards */}
           {categories.map((cat, catIdx) => {
             const info = CATEGORY_INFO[cat]
             const levels = GAME_LEVELS.filter((l) => l.category === cat)
-            const completedCount = levels.filter(
-              (l) => currentChild.progress?.[l.id]?.completed
-            ).length
+            const completedCount = levels.filter((l) => currentChild.progress?.[l.id]?.completed).length
+            const pct = Math.round((completedCount / levels.length) * 100)
 
             return (
               <motion.div
                 key={cat}
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: catIdx * 0.15 }}
-                className="bg-white rounded-[1.5rem] overflow-hidden shadow-lg"
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: catIdx * 0.1 }}
+                className="bg-white rounded-3xl overflow-hidden shadow-xl"
               >
-                {/* Category Header */}
-                <div className={`bg-gradient-to-r ${info.bg} p-4 flex items-center gap-3`}>
-                  <span className="text-4xl">{info.character}</span>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-black text-white">{info.label}</h3>
-                    <p className="text-white/80 text-sm">{info.description}</p>
+                {/* Category header */}
+                <div className={`bg-gradient-to-r ${info.bg} px-5 py-4`}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="text-4xl">{info.character}</span>
+                      <div>
+                        <h3 className="text-xl font-black text-white"
+                          style={{ textShadow: '0 1px 4px rgba(0,0,0,0.2)' }}>
+                          {info.label}
+                        </h3>
+                        <p className="text-white/80 text-xs font-semibold">{info.description}</p>
+                      </div>
+                    </div>
+                    <div className="bg-white/25 rounded-xl px-3 py-1.5 text-center">
+                      <p className="text-white font-black text-sm">{completedCount}/{levels.length}</p>
+                      <p className="text-white/70 text-xs">完成</p>
+                    </div>
                   </div>
-                  <div className="bg-white/30 rounded-xl px-3 py-1 text-white font-bold text-sm">
-                    {completedCount}/{levels.length}
+                  {/* Progress bar */}
+                  <div className="mt-3 bg-white/20 rounded-full h-2">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${pct}%` }}
+                      transition={{ duration: 0.8, ease: 'easeOut' }}
+                      className="h-2 bg-white rounded-full"
+                    />
                   </div>
                 </div>
 
-                {/* Levels Grid */}
+                {/* Level grid */}
                 <div className="p-4 grid grid-cols-4 gap-3">
                   {levels.map((level, idx) => {
                     const progress = currentChild.progress?.[level.id]
@@ -107,30 +123,41 @@ export default function GamePage() {
                       <motion.button
                         key={level.id}
                         onClick={() => router.push(`/game/${level.id}`)}
-                        whileHover={{ scale: 1.08 }}
+                        whileHover={{ scale: 1.08, y: -2 }}
                         whileTap={{ scale: 0.92 }}
-                        className="flex flex-col items-center gap-1"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: catIdx * 0.1 + idx * 0.05 }}
+                        className="flex flex-col items-center gap-1.5"
                       >
                         <div
-                          className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shadow-md ${
-                            isCompleted
-                              ? 'bg-gradient-to-br from-yellow-300 to-orange-400'
-                              : 'bg-gray-50 border-2 border-dashed border-gray-200'
-                          }`}
-                          style={isCompleted ? { boxShadow: '0 4px 0 rgba(200,100,0,0.3)' } : {}}
+                          className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl relative"
+                          style={{
+                            background: isCompleted
+                              ? 'linear-gradient(135deg, #fbbf24, #f59e0b)'
+                              : '#f3f4f6',
+                            boxShadow: isCompleted
+                              ? '0 4px 0 #d97706'
+                              : '0 4px 0 #d1d5db',
+                          }}
                         >
                           {level.icon}
+                          {isCompleted && (
+                            <div className="absolute -top-1 -right-1 bg-green-500 rounded-full w-5 h-5 flex items-center justify-center">
+                              <span className="text-white text-xs font-black">✓</span>
+                            </div>
+                          )}
                         </div>
-                        <span className="text-xs font-bold text-gray-600 text-center leading-tight">
+                        <span className="text-xs font-bold text-gray-700 text-center leading-tight">
                           {level.title}
                         </span>
-                        {isCompleted && (
-                          <div className="flex">
-                            {Array.from({ length: 3 }).map((_, i) => (
-                              <span key={i} className="text-xs">{i < stars ? '⭐' : '☆'}</span>
-                            ))}
-                          </div>
-                        )}
+                        <div className="flex">
+                          {Array.from({ length: 3 }).map((_, i) => (
+                            <span key={i} className="text-xs leading-none">
+                              {i < stars ? '⭐' : '☆'}
+                            </span>
+                          ))}
+                        </div>
                       </motion.button>
                     )
                   })}
@@ -138,33 +165,31 @@ export default function GamePage() {
               </motion.div>
             )
           })}
-        </div>
 
-        {/* Stars Display */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="relative z-10 mx-5 mt-4 bg-white/30 backdrop-blur rounded-[1.5rem] p-4 flex items-center justify-between"
-        >
-          <div className="text-white">
-            <p className="font-black text-xl">⭐ {currentChild.stars} 顆星</p>
-            <p className="text-white/70 text-sm">繼續收集更多！</p>
-          </div>
-          <div className="flex gap-1">
-            {Array.from({ length: Math.min(currentChild.stars, 10) }).map((_, i) => (
-              <motion.span
-                key={i}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: i * 0.05 }}
-                className="text-xl"
-              >
-                ⭐
-              </motion.span>
-            ))}
-          </div>
-        </motion.div>
+          {/* Star total */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="bg-white/10 rounded-3xl p-4 flex items-center justify-between"
+          >
+            <div>
+              <p className="text-white font-black text-xl">⭐ {totalStars} 顆星</p>
+              <p className="text-white/60 text-sm font-semibold">繼續玩，收集更多！</p>
+            </div>
+            <div className="flex flex-wrap gap-1 max-w-[140px] justify-end">
+              {Array.from({ length: Math.min(totalStars, 15) }).map((_, i) => (
+                <motion.span key={i} initial={{ scale: 0 }} animate={{ scale: 1 }}
+                  transition={{ delay: i * 0.03 }} className="text-base">
+                  ⭐
+                </motion.span>
+              ))}
+              {totalStars > 15 && (
+                <span className="text-white/60 text-sm font-bold">+{totalStars - 15}</span>
+              )}
+            </div>
+          </motion.div>
+        </div>
       </div>
     </TimeGuard>
   )
