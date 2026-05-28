@@ -1,5 +1,6 @@
 'use client'
 import { motion } from 'framer-motion'
+import type { TargetAndTransition } from 'framer-motion'
 
 type Character = 'peep' | 'hoppy' | 'luna' | 'sparky'
 type Mood = 'happy' | 'excited' | 'thinking' | 'sad' | 'dancing'
@@ -11,7 +12,7 @@ const CHAR_EMOJI: Record<Character, string> = {
   luna: '🦄',
 }
 
-const moodVariants: Record<Mood, object> = {
+const moodVariants: Record<Mood, TargetAndTransition> = {
   happy: { rotate: [0, 5, -5, 0], transition: { repeat: Infinity, duration: 2 } },
   excited: { scale: [1, 1.2, 1], transition: { repeat: Infinity, duration: 0.5 } },
   thinking: { rotate: [0, -10, 0], transition: { repeat: Infinity, duration: 2, ease: 'easeInOut' } },
